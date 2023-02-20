@@ -1,0 +1,57 @@
+main{
+  padding: 0 30px;
+}
+
+.container {
+
+  display: flex;
+align-items: center;
+  .title {
+    display: flex;
+    flex-direction: column;
+    font-weight: 400;
+    margin-right: 30px;
+    justify-content: center;
+
+    .title-txt {
+      font-weight: 500;
+      font-size: large;
+    }
+    .title-required {
+
+    }
+  }
+
+  .text-at {
+    margin: 0px 10px;
+    font-weight: 500;
+    font-size: large;
+  }
+}
+
+::ng-deep .mat-form-field-flex {
+  border: 0.2px solid gray;
+}
+
+::ng-deep .mat-select-panel::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+::ng-deep .mat-select-panel::-webkit-scrollbar:vertical {
+  width: 11px;
+  background-color: #f1f1f1;
+}
+
+::ng-deep .mat-select-panel::-webkit-scrollbar:horizontal {
+  height: 11px;
+}
+
+::ng-deep .mat-select-panel::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  border: 2px solid white; /* should match background, can't be transparent */
+  background-color: rgba(0, 0, 0, .5);
+}
+
+.mat-flat-button{
+  color: white !important;
+}

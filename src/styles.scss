@@ -1,0 +1,10 @@
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+  padding: 100px 10px;
+  background-color: #f2f6f8;
+}
+
+.cdk-overlay-pane.my-dialog {
+  position: relative !important;
+}

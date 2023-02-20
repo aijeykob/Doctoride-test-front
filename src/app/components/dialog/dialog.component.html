@@ -1,0 +1,16 @@
+<div class="dialog-container">
+  <mat-icon svgIcon="searchIcon"></mat-icon>
+  <div class="text-block">
+    <h1 mat-dialog-title>Result</h1>
+    <div class="content">
+      <p>start: {{data.start}}</p>
+      <p>end: {{data.end}}</p>
+    </div>
+  </div>
+
+  <div
+    class="dialog-footer">
+    <button mat-stroked-button color="warn" (click)="onNoClick()">Close</button>
+  </div>
+
+</div>
