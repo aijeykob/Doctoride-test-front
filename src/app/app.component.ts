@@ -2,19 +2,17 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
+import {MatIconRegistry} from "@angular/material/icon";
+import {DomSanitizer} from "@angular/platform-browser";
+import {Subscription} from "rxjs";
 import * as _moment from 'moment';
 // @ts-ignore
 import {default as _rollupMoment} from 'moment';
 
 import {DialogComponent} from './components/dialog/dialog.component';
-import {MatIconRegistry} from "@angular/material/icon";
-import {DomSanitizer} from "@angular/platform-browser";
-import {Subscription} from "rxjs";
-
 
 const moment = _rollupMoment || _moment;
-
 
 const MY_FORMATS = {
   parse: {
@@ -27,8 +25,6 @@ const MY_FORMATS = {
     monthYearA11yLabel: 'YYYY',
   },
 };
-
-const times: never[] = []
 
 function getTimeRanges(interval = 15, language = 'ru') {
   const ranges = [];
@@ -126,7 +122,7 @@ export class AppComponent implements OnInit, OnDestroy {
       const endDateValue = change;
       const endTimeValue = this.dateForm.controls['endTime'].value;
       const diff = this.getDiffDates(startDateValue, startTimeValue, endDateValue, endTimeValue);
-      if(diff > 1 || diff < 0) {
+      if (diff > 1 || diff < 0) {
         this.dateForm.controls['endDate'].setErrors({'incorrect': true});
       }
 
@@ -138,7 +134,7 @@ export class AppComponent implements OnInit, OnDestroy {
       const endDateValue = this.dateForm.controls['endDate'].value;
       const endTimeValue = change;
       const diff = this.getDiffDates(startDateValue, startTimeValue, endDateValue, endTimeValue);
-      if(diff > 1 || diff < 0) {
+      if (diff > 1 || diff < 0) {
         this.dateForm.controls['endTime'].setErrors({'incorrect': true});
       } else {
         this.dateForm.controls['endDate'].setErrors(null);
@@ -158,15 +154,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   openDialog(): void {
     const startDateValue = this.dateForm.controls['startDate'].value.clone();
-    const [startHours,startMinutes] = this.dateForm.controls['startTime'].value.split(':');
+    const [startHours, startMinutes] = this.dateForm.controls['startTime'].value.split(':');
     const endDateValue = this.dateForm.controls['endDate'].value.clone();
     const [endHours, endMinutes] = this.dateForm.controls['endTime'].value.split(':');
-    startDateValue.add(+startHours, 'h')
-    startDateValue.add(+startMinutes, 'minutes')
-    endDateValue.add(+endHours, 'h')
-    endDateValue.add(+endMinutes, 'minutes')
-    const start = startDateValue.utcOffset(0, true).format();
-    const end = endDateValue.utcOffset(0, true).format();
+    const formattedStartDateValue = this.addFormatHoursAndMinutes(startDateValue, startHours, startMinutes)
+    const formattedEndDateValue = this.addFormatHoursAndMinutes(endDateValue, endHours, endMinutes)
+    const start = formattedStartDateValue.utcOffset(0, true).format();
+    const end = formattedEndDateValue.utcOffset(0, true).format();
     this.dialog.open(DialogComponent, {
       panelClass: 'my-dialog',
       data: {
@@ -177,7 +171,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private countStartTime(currentHours = '0', currentMinutes = '0') {
-    currentHours = currentHours.padStart(2,'0');
+    currentHours = currentHours.padStart(2, '0');
     if (+currentMinutes < 0 || +currentMinutes > 59) throw Error('invalid currentMinutes')
     if (+currentMinutes < 15) {
       return `${currentHours}:00`
@@ -193,30 +187,33 @@ export class AppComponent implements OnInit, OnDestroy {
   private appendOneHour(date = '') {
     const [hours, minutes] = date.split(':');
     if (+hours > 23) throw Error('invalid date')
-    return `${(+hours + 1).toString().padStart(2,'0')}:${minutes}`
+    return `${(+hours + 1).toString().padStart(2, '0')}:${minutes}`
   }
 
-  private getDiffDates(startDate:_moment.Moment,startTime='',endDate:_moment.Moment,endTime='') {
+  private getDiffDates(startDate: _moment.Moment, startTime = '', endDate: _moment.Moment, endTime = '') {
     const cloneStartDate = startDate.clone();
     const cloneEndDate = endDate.clone();
     const [startHours, startMinutes] = startTime.split(':');
     const [endHours, endMinutes] = endTime.split(':');
-    cloneStartDate.add(+startHours, 'h')
-    cloneStartDate.add(+startMinutes, 'minutes')
-    cloneEndDate.add(+endHours, 'h')
-    cloneEndDate.add(+endMinutes, 'minutes')
-    return cloneEndDate.diff(cloneStartDate, 'hours', true);
+    const formattedCloneStartDate = this.addFormatHoursAndMinutes(cloneStartDate, startHours, startMinutes)
+    const formattedCloneEndDate = this.addFormatHoursAndMinutes(cloneEndDate, endHours, endMinutes)
+    return formattedCloneEndDate.diff(formattedCloneStartDate, 'hours', true);
   }
 
-  private addHoursAndMinutes() {
-
+  private addFormatHoursAndMinutes(date: _moment.Moment, hours = '', minutes = '') {
+    date.add(+hours, 'h')
+    date.add(+minutes, 'minutes')
+    return date
   }
 
-  getErrorMessage(name=''): string {
+  getErrorMessage(name = ''): string {
     switch (name) {
-      case 'endDate': return 'Invalid date'
-      case 'endTime': return 'Invalid time'
-      default : return 'Error'
+      case 'endDate':
+        return 'Invalid date'
+      case 'endTime':
+        return 'Invalid time'
+      default :
+        return 'Error'
     }
   }
 }

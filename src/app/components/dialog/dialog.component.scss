@@ -2,7 +2,7 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   width: 300px;
 
@@ -14,9 +14,11 @@
   .text-block {
     font-size: large;
     padding-top: 50px;
-    h1{
+
+    h1 {
       font-weight: 500;
     }
+
     .content {
       display: flex;
       flex-direction: column;
@@ -26,7 +28,11 @@
 
 }
 
-::ng-deep .mat-icon {
+.dialog-container-header {
+  display: none;
+}
+
+::ng-deep .searchIcon {
   position: absolute;
   top: 0;
   right: 175px;
@@ -35,10 +41,68 @@
   padding: 5px;
   line-height: 14px;
   min-width: auto;
+  height: 100px !important;
+  width: 100px !important;
 }
 
-.mat-icon {
-  font-size: 100px;
-  height: 100px ;
-  width: 100px;
+@media screen and (max-width: 670px) {
+  .result-txt {
+    display: none;
+  }
+  .dialog-container-header {
+    display: flex;
+    padding: 10px 0;
+    align-items: center;
+
+    h1 {
+      margin: 0;
+    }
+  }
+  ::ng-deep .cdk-overlay-container .cdk-overlay-pane {
+    max-width: 100vh !important;
+    width: 100vw !important;
+    height: 100vh !important;
+  }
+  ::ng-deep .mat-dialog-container {
+    padding: 0;
+  }
+  .dialog-container {
+    width: auto;
+
+    .dialog-container-header {
+      padding: 20px 15px;
+      border-bottom: 1px solid gray;
+      justify-content: space-between;
+
+      .empty-class {
+        color: white;
+      }
+
+      .text-with-icon {
+        display: flex;
+        align-items: center;
+
+        h1 {
+          margin-left: 5px;
+        }
+      }
+
+      .close-icon-wrapper {
+      }
+    }
+
+    .searchIcon {
+      display: none;
+    }
+
+    .text-block {
+      align-self: flex-start;
+      padding: 10px 15px;
+    }
+
+    .close-icon {
+      cursor: pointer;
+    }
+  }
+
 }

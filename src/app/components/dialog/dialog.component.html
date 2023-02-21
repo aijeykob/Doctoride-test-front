@@ -1,16 +1,24 @@
 <div class="dialog-container">
-  <mat-icon svgIcon="searchIcon"></mat-icon>
+  <div class="dialog-container-header">
+    <div class="empty-class">_</div>
+    <div class="text-with-icon">
+      <mat-icon class="headerSearchIcon" svgIcon="searchIcon"></mat-icon>
+      <h1>Result</h1>
+    </div>
+    <div class="close-icon-wrapper">
+      <mat-icon class="close-icon" color="black" (click)="onNoClick()">close</mat-icon>
+    </div>
+  </div>
+  <mat-icon class="searchIcon" svgIcon="searchIcon"></mat-icon>
   <div class="text-block">
-    <h1 mat-dialog-title>Result</h1>
+    <h1 class="result-txt" mat-dialog-title>Result</h1>
     <div class="content">
       <p>start: {{data.start}}</p>
       <p>end: {{data.end}}</p>
     </div>
   </div>
-
   <div
     class="dialog-footer">
     <button mat-stroked-button color="warn" (click)="onNoClick()">Close</button>
   </div>
-
 </div>

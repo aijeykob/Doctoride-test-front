@@ -3,8 +3,12 @@ body {
   margin: 0;
   padding: 100px 10px;
   background-color: #f2f6f8;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .cdk-overlay-pane.my-dialog {
   position: relative !important;
 }
+

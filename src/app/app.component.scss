@@ -1,11 +1,12 @@
-main{
+main {
   padding: 0 30px;
 }
 
 .container {
 
   display: flex;
-align-items: center;
+  align-items: center;
+
   .title {
     display: flex;
     flex-direction: column;
@@ -17,6 +18,7 @@ align-items: center;
       font-weight: 500;
       font-size: large;
     }
+
     .title-required {
 
     }
@@ -52,6 +54,26 @@ align-items: center;
   background-color: rgba(0, 0, 0, .5);
 }
 
-.mat-flat-button{
+.mat-flat-button {
   color: white !important;
+}
+
+@media screen and (max-width: 670px) {
+  .submit-btn {
+    width: 100%;
+  }
+  .container {
+    .title {
+      display: none;
+    }
+  }
+}
+
+.mat-form-field {
+  width: 100%;
+  max-width: 500px;
+}
+
+::ng-deep .mat-form-field-infix {
+  width: auto !important;
 }
